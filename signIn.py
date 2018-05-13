@@ -1,4 +1,5 @@
 from sqlite import *
+from security import *
 
 create_table()
 
@@ -10,7 +11,9 @@ def register_user():
     password = input("Please enter a password: ")
 
     if check_user(username) == 0:
-        insert_user_info(username, password)
+        hashed_user = hash_data(username)
+        hashed_pass = hash_data(password)
+        insert_user_info(hashed_user, hashed_pass)
         close_db()
     else:
         print("User already exists.")
@@ -20,10 +23,13 @@ def sign_in_user():
     username = input("Please enter a username: ")
     password = input("Please enter a password: ")
 
-    if check_user(username) == 0:
+    hashed_user = hash_data(username)
+    hashed_pass = hash_data(password)
+
+    if check_user(hashed_user) == 0:
         print("Incorrect username or password")
     else:
-        if check_pass(password) == 0:
+        if check_pass(hashed_pass) == 0:
             print("Incorrect username or password.")
         else:
             print("Welcome, " + username + ".")
