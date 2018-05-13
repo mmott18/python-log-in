@@ -1,10 +1,6 @@
 from sqlite import *
 from security import *
 
-create_table()
-
-run = True
-
 
 def register_user():
     username = input("Please enter a username: ")
@@ -14,7 +10,6 @@ def register_user():
         hashed_user = hash_data(username)
         hashed_pass = hash_data(password)
         insert_user_info(hashed_user, hashed_pass)
-        close_db()
     else:
         print("User already exists.")
 
@@ -35,15 +30,26 @@ def sign_in_user():
             print("Welcome, " + username + ".")
 
 
-while run:
+def menu():
+    create_table()
+    run = True
+    while run:
 
-    print("Would you like to sign in or register?")
-    choice = input("Enter s for sign in or r for register: ")
+        print("Would you like to sign in or register?")
+        choice = input("Enter s for sign in or r for register: ")
+        print(choice)
 
-    if choice == ("r" or "R"):
-        register_user()
-        choice = ""
-    if choice == ("s" or "S"):
-        sign_in_user()
-        choice = ""
-        run = False
+        if choice[0].lower() == "r":
+            register_user()
+            print(choice)
+        elif choice[0].lower() == "s":
+            sign_in_user()
+            print(choice)
+            run = False
+            close_db()
+        else:
+            print("Invalid choice.")
+            print(choice)
+
+
+menu()
