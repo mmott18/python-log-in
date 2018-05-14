@@ -37,19 +37,15 @@ def menu():
 
         print("Would you like to sign in or register?")
         choice = input("Enter s for sign in or r for register: ")
-        print(choice)
 
         if choice[0].lower() == "r":
             register_user()
-            print(choice)
         elif choice[0].lower() == "s":
             sign_in_user()
-            print(choice)
             run = False
             close_db()
         else:
             print("Invalid choice.")
-            print(choice)
 
 
 menu()
