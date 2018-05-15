@@ -6,7 +6,7 @@ import time
 def countdown(t):
     print("Too many incorrect sign in attempts.")
     print("Please wait for " + str(t) + " seconds.")
-    while t:
+    while t > 0:
         print(t)
         time.sleep(1)
         t -= 1
@@ -25,7 +25,7 @@ def register_user():
 
 
 def sign_in_user():
-    attempts = 1
+    attempts = 0
     success = False
 
     while not success:
@@ -35,16 +35,16 @@ def sign_in_user():
         hashed_user = hash_data(username)
         hashed_pass = hash_data(password)
 
-        if attempts > 2: #FIXME if user takes 3 or more attempts to enter correct PW, then enters it correctly, still enters this
-                         #FIXME because attempts is still > 2
-            diff = attempts - 2
-            print(countdown(3 ** diff))
         if check_user(hashed_user) == 0:
             print("Incorrect username or password")
         else:
             if check_pass(hashed_pass) == 0:
                 print("Incorrect username or password.")
                 attempts += 1
+
+                if attempts >= 3:
+                    diff = attempts - 2
+                    countdown(3 * (2**diff))
             else:
                 attempts = 0
                 print("Welcome, " + username + ".")
